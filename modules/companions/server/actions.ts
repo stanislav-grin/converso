@@ -34,7 +34,7 @@ export const getCompanions = async ({
 
   let query = supabase.from('companions').select()
 
-  if (supabase && topic) {
+  if (subject && topic) {
     query = query
       .ilike('subject', `%${subject}%`)
       .or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`)
