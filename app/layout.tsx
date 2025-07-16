@@ -1,8 +1,10 @@
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import { Bricolage_Grotesque } from 'next/font/google'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 import { Navbar } from '@/components/navbar'
+
 import './globals.css'
 
 const bricolage = Bricolage_Grotesque({
@@ -21,13 +23,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider appearance={{ variables: { colorPrimary: '#fe5933' } }}>
-      <html lang="en">
-        <body className={`${bricolage.variable} antialiased`}>
-          <Navbar />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <NuqsAdapter>
+      <ClerkProvider appearance={{ variables: { colorPrimary: '#fe5933' } }}>
+        <html lang="en">
+          <body className={`${bricolage.variable} antialiased`}>
+            <Navbar />
+            {children}
+          </body>
+        </html>
+      </ClerkProvider>
+    </NuqsAdapter>
   )
 }
