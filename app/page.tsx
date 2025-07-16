@@ -1,7 +1,7 @@
-import { CompanionCard } from '@/components/companion-card'
-import { CompanionsList } from '@/components/companions-list'
 import { CTA } from '@/components/cta'
 import { recentSessions } from '@/constants'
+import { CompanionCard } from '@/modules/companions/ui/components/companion-card'
+import { CompanionsList } from '@/modules/companions/ui/components/companions-list'
 
 const Page = () => {
   return (

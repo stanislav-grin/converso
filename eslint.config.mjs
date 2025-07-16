@@ -61,6 +61,7 @@ const eslintConfig = [
           },
         },
       ],
+      'react/jsx-tag-spacing': ['error'],
     },
   },
 ]

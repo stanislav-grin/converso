@@ -5,14 +5,13 @@ import { redirect } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { createCompanion } from '@/lib/actions/companion.actions'
-
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { subjects } from '@/constants'
+import { createCompanion } from '@/modules/companions/server/actions'
 
 const formSchema = z.object({
   name: z.string().min(1, { message: 'Companion is required' }),
@@ -22,7 +21,8 @@ const formSchema = z.object({
   style: z.string().min(1, { message: 'Style is required' }),
   duration: z.coerce
     .number()
-    .refine((val) => !isNaN(val), { message: 'Duration is required' })
+    .int()
+    .positive()
     .min(1, { message: 'Duration is required' }),
 })
 
