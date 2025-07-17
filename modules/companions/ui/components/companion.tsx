@@ -45,11 +45,11 @@ export const CompanionComponent = ({
   const lottieRef = useRef<LottieRefCurrentProps>(null)
 
   useEffect(() => {
-    if (lottieRef) {
+    if (lottieRef.current) {
       if (isSpeaking) {
-        lottieRef.current?.play()
+        lottieRef.current.play()
       } else {
-        lottieRef.current?.stop()
+        lottieRef.current.stop()
       }
     }
   }, [isSpeaking, lottieRef])
@@ -57,7 +57,7 @@ export const CompanionComponent = ({
   useEffect(() => {
     const onCallStart = () => setCallStatus(CallStatus.ACTIVE)
     const onCallEnd = () => setCallStatus(CallStatus.FINISHED)
-    const onError = (error: Error) => console.log('Error', error)
+    const onError = (error: Error) => console.error('Voice API Error:', error)
     const onSpeechStart = () => setIsSpeaking(true)
     const onSpeechEnd = () => setIsSpeaking(false)
 
@@ -178,7 +178,7 @@ export const CompanionComponent = ({
             <Fragment key={index}>
               { message.role === 'assistant' && (
                 <p className="max-sm:text-sm">
-                  {name.split(' ')[0].replace('/[.,]/g', '')}: {message.content}
+                  {name.split(' ')[0].replace(/[.,]/g, '')}: {message.content}
                 </p>
               )}
 
