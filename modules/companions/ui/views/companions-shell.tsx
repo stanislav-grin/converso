@@ -4,7 +4,8 @@ import { ErrorState } from '@/components/error-state'
 import { LoadingState } from '@/components/loading-state'
 import { loadSearchParams } from '@/modules/companions/params'
 import { getCompanions } from '@/modules/companions/server/actions'
-import { CompanionsView } from '@/modules/companions/ui/views/companions-view'
+
+import { CompanionsView } from './companions-view'
 
 interface Props {
   searchParams: Promise<SearchParams>
