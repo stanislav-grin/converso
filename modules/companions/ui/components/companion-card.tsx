@@ -1,5 +1,10 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+import { removeBookmark, addBookmark } from '@/modules/companions/server/actions'
 
 interface Props {
   id: string
@@ -8,9 +13,20 @@ interface Props {
   subject: string
   duration: number
   color: string
+  bookmarked: boolean
 }
 
-export const CompanionCard = ({ id, name, topic, subject, duration, color }: Props) => {
+export const CompanionCard = ({ id, name, topic, subject, duration, color, bookmarked }: Props) => {
+  const pathname = usePathname()
+
+  const handleBookmark = async () => {
+    if (bookmarked) {
+      await removeBookmark(id, pathname)
+    } else {
+      await addBookmark(id, pathname)
+    }
+  }
+
   return (
     <article
       className="companion-card"
@@ -19,9 +35,9 @@ export const CompanionCard = ({ id, name, topic, subject, duration, color }: Pro
       <div className="flex justify-between items-center">
         <div className="subject-badge">{subject}</div>
 
-        <button className="companion-bookmark">
+        <button className="companion-bookmark" onClick={handleBookmark}>
           <Image
-            src="/icons/bookmark.svg"
+            src={bookmarked ? '/icons/bookmark-filled.svg' : '/icons/bookmark.svg'}
             alt="Bookmark"
             width={12.5}
             height={15}
