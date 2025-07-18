@@ -191,7 +191,6 @@ export const getUserCompanions = async (userId: string) => {
   return data
 }
 
-
 export const getBookmarkedCompanions = async (userId: string, limit = 10) => {
   const { userId: author, isAuthenticated } = await auth()
 
@@ -218,7 +217,9 @@ export const getBookmarkedCompanions = async (userId: string, limit = 10) => {
 export const addBookmark = async (companionId: string, path: string) => {
   const { userId } = await auth()
 
-  if (!userId) return
+  if (!userId) {
+    throw new Error('Authentication failed')
+  }
 
   const supabase = createSupabaseClient()
 
@@ -241,7 +242,9 @@ export const addBookmark = async (companionId: string, path: string) => {
 export const removeBookmark = async (companionId: string, path: string) => {
   const { userId } = await auth()
 
-  if (!userId) return
+  if (!userId) {
+    throw new Error('Authentication failed')
+  }
 
   const supabase = createSupabaseClient()
 

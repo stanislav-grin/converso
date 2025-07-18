@@ -14,7 +14,7 @@ interface MyJourneyViewProps {
 export const MyJourneyView = ({ user, companions, sessionHistory, bookmarkedCompanions }: MyJourneyViewProps) => {
   return (
     <main className="min-lg:w-3/4">
-      <section className="flex justify-between gap-4 msx-sm:flex-col items-center">
+      <section className="flex justify-between gap-4 max-sm:flex-col items-center">
         <div className="flex gap-4 items-center">
           <Image src={user.imageUrl} alt={user.firstName || 'User'} width={110} height={110} className="rounded-xl" />
 
@@ -75,7 +75,7 @@ export const MyJourneyView = ({ user, companions, sessionHistory, bookmarkedComp
             Bookmarked Companions ({bookmarkedCompanions.length})
           </AccordionTrigger>
           <AccordionContent>
-            <CompanionsList title="My Companions" companions={bookmarkedCompanions} />
+            <CompanionsList title="Bookmarked Companions" companions={bookmarkedCompanions} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>
