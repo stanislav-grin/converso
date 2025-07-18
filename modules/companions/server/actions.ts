@@ -262,6 +262,7 @@ export const removeBookmark = async (companionId: string, path: string) => {
 
   return data
 }
+
 export const newCompanionPermissions = async () => {
   const { userId, has, isAuthenticated } = await auth()
   const supabase = createSupabaseClient()
