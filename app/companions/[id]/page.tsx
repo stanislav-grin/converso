@@ -1,5 +1,7 @@
 import { Suspense } from 'react'
 
+import { currentUser } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import {
@@ -14,6 +16,11 @@ interface Props {
 
 const CompanionSession = async ({ params }: Props) => {
   const { id } = await params
+  const user = await currentUser()
+
+  if (!user) {
+    redirect('/sign-in')
+  }
 
   return (
     <Suspense fallback={<CompanionLoading />}>

@@ -9,7 +9,12 @@ import { DEFAULT_PAGE } from '@/constants'
 export const createCompanion = async (
   formData: CreateCompanion,
 ): Promise<Companion> => {
-  const { userId: author } = await auth()
+  const { userId: author, isAuthenticated } = await auth()
+
+  if (!isAuthenticated) {
+    throw new Error('Authentication failed')
+  }
+
   const supabase = createSupabaseClient()
 
   const { data, error } = await supabase
@@ -56,6 +61,12 @@ export const getCompanions = async ({
 }
 
 export const getCompanion = async (id: string) => {
+  const { isAuthenticated } = await auth()
+
+  if (!isAuthenticated) {
+    throw new Error('Authentication failed')
+  }
+
   const supabase = createSupabaseClient()
 
   const { data, error } = await supabase
@@ -71,7 +82,12 @@ export const getCompanion = async (id: string) => {
 }
 
 export const addToSessionHistory = async (companionId: string) => {
-  const { userId } = await auth()
+  const { userId, isAuthenticated } = await auth()
+
+  if (!isAuthenticated) {
+    throw new Error('Authentication failed')
+  }
+
   const supabase = createSupabaseClient()
 
   const { data, error } = await supabase
@@ -89,6 +105,12 @@ export const addToSessionHistory = async (companionId: string) => {
 }
 
 export const getRecentSessions = async (limit = 10) => {
+  const { isAuthenticated } = await auth()
+
+  if (!isAuthenticated) {
+    throw new Error('Authentication failed')
+  }
+
   const supabase = createSupabaseClient()
 
   const { data, error } = await supabase
@@ -105,6 +127,12 @@ export const getRecentSessions = async (limit = 10) => {
 }
 
 export const getUserSessions = async (userId: string, limit = 10) => {
+  const { userId: author, isAuthenticated } = await auth()
+
+  if (!isAuthenticated || author !== userId) {
+    throw new Error('Authentication failed')
+  }
+
   const supabase = createSupabaseClient()
 
   const { data, error } = await supabase
@@ -122,6 +150,12 @@ export const getUserSessions = async (userId: string, limit = 10) => {
 }
 
 export const getUserCompanions = async (userId: string) => {
+  const { userId: author, isAuthenticated } = await auth()
+
+  if (!isAuthenticated || author !== userId) {
+    throw new Error('Authentication failed')
+  }
+
   const supabase = createSupabaseClient()
 
   const { data, error } = await supabase

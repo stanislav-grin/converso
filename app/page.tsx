@@ -1,3 +1,6 @@
+import { auth } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
+
 import { getSubjectColor } from '@/lib/utils'
 
 import { CTA } from '@/components/cta'
@@ -6,6 +9,12 @@ import { CompanionCard } from '@/modules/companions/ui/components/companion-card
 import { CompanionsList } from '@/modules/companions/ui/components/companions-list'
 
 const Page = async () => {
+  const { isAuthenticated } = await auth()
+
+  if (!isAuthenticated) {
+    redirect('/sign-in')
+  }
+  
   const [companions, recentSessionsCompanions] = await Promise.all([
     getCompanions({ limit: 3 }),
     getRecentSessions(10)
@@ -18,7 +27,7 @@ const Page = async () => {
       <section className="home-section">
         {companions.map((companion: Companion) => (
           <CompanionCard
-            key={companion.$id}
+            key={companion.id}
             {...companion}
             color={getSubjectColor(companion.subject)}
           />
