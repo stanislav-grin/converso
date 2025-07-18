@@ -9,6 +9,7 @@ import { cn, configureAssistant, getSubjectColor } from '@/lib/utils'
 import { vapi } from '@/lib/vapi.sdk'
 
 import soundwaves from '@/constants/soundwaves.json'
+import { addToSessionHistory } from '@/modules/companions/server/actions'
 
 interface CompanionComponentProps {
   id: string
@@ -29,6 +30,7 @@ enum CallStatus {
 }
 
 export const CompanionComponent = ({
+  id: companionId,
   subject,
   name,
   userName,
@@ -56,7 +58,12 @@ export const CompanionComponent = ({
 
   useEffect(() => {
     const onCallStart = () => setCallStatus(CallStatus.ACTIVE)
-    const onCallEnd = () => setCallStatus(CallStatus.FINISHED)
+
+    const onCallEnd = () => {
+      setCallStatus(CallStatus.FINISHED)
+      addToSessionHistory(companionId)
+    }
+
     const onError = (error: Error) => console.error('Voice API Error:', error)
     const onSpeechStart = () => setIsSpeaking(true)
     const onSpeechEnd = () => setIsSpeaking(false)
@@ -83,7 +90,7 @@ export const CompanionComponent = ({
       vapi.off('speech-start', onSpeechStart)
       vapi.off('speech-end', onSpeechEnd)
     }
-  }, [])
+  }, [companionId])
 
   const toggleMicrophone = () => {
     const isMuted = vapi.isMuted()
