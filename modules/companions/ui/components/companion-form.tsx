@@ -14,7 +14,7 @@ import { subjects } from '@/constants'
 import { createCompanion } from '@/modules/companions/server/actions'
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: 'Companion is required' }),
+  name: z.string().min(1, { message: 'Name is required' }),
   subject: z.string().min(1, { message: 'Subject is required' }),
   topic: z.string().min(1, { message: 'Topic is required' }),
   voice: z.string().min(1, { message: 'Voice is required' }),
